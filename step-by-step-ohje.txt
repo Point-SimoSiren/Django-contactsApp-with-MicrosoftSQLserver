@@ -1,0 +1,143 @@
+Django - microsoft SQL server contacts app
+
+-----------------------------------------------------
+
+Luotu ensin tietokanta: contacts, sinne taulu: persons:
+id          int (identity, not null)
+first name  nvarchar(50)
+last name   nvarchar(50)
+email	    nvarchar(50)
+phone       nvarchar(50)
+------------------------------------------------
+Perustettu kansio ja menty vs codella sinne.
+*** juurikansiossa komento:
+django-admin startproject contacts ***
+-----------------------------------------------
+ylempään contacts kansioon luodaan kansio
+templates ja sinne Index.html koodeineen
+jossa table dataa varten:
+-----------
+
+{% load static %}
+<!-- .js ja css jos olisi määritetty sellaisia -->
+
+<!DOCTYPE html>
+
+<head>
+    <title>Constacts app</title>
+    <!-- <script src="./koodi.js" type="text/javascript"></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- omat tyylit jos olisi määritetty -->
+    <link rel="stylesheet" href="{% static 'tasks/styles.css' %}">
+</head>
+
+<body>
+    <center>
+        <h3>Django with microsoft SQL server</h3>
+        <h1>Contacts app</h1>
+        <hr />
+        <table border="1">
+            <tr>
+                <th>
+                    first name
+                </th>
+                <th>
+                    last name
+                </th>
+                <th>
+                    email
+                </th>
+                <th>
+                    phone
+                </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+    </center>
+</body>
+
+</html>
+
+--------------------------------------------------------
+alempaan contacts kansioon luodaan tiedosto models.py
+ja kantaa vastaavat kentät:
+--------------
+
+from django.db import models
+
+class sqlserverconn(models.Model):
+    firstname=models.CharField(max_length=50)
+    lastname=models.CharField(max_length=50)
+    email=models.CharField(max_length=50)
+    phone=models.CharField(max_length=50)
+
+    #int kenttä olisi vastaavsti IntegerField(...)
+--------------------------------------------------------
+*** juurikansiossa komento: pip install pyodbc ***
+*** se on kirjasto ms SQL serveriä varten ***
+---------------------------------------------------------
+alempaan contacts kansioon luodaan tiedosto views.py:
+sen sisältö:
+-----------
+
+from django.shortcuts import render
+from contacts.models import sqlserverconn
+import pyodbc
+
+def connsql(request):
+    conn=pyodbc.connect('Driver={sql server};'
+                        'Server=LAPTOP-UBQPUL3D\SQLEXSIMOSI;'
+                        'Database=contacts;'
+                        'Trusted_Connection=yes;')
+    cursor=conn.cursor()
+    cursor.execute("select * from persons")
+    result = cursor.fetchall()
+    return render(request, 'Index.html',{'sqlserverconn':result})
+
+--------------------------------------------------------
+urls.py kansioon tulee sisällöksi:
+-----------
+
+from django.contrib import admin
+from django.urls import path
+from . import views #lisätty itse
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.connsql) #lisätty itse
+]
+--------------------------------------------------
+settings.py tiedostoon:
+---------
+
+INSTALLED_APPS taulukkoon Lisätään oletuksena tulleiden lisäksi tämä oma:
+'contacts'
+TEMPLATES taulukkoon kohtaan 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+----------------------------------------------------------------------------------------------------------
+Index.html taulukon td kenttiin jotka on olleet tähän ast tyhjiä
+sidotaan vielä for loopilta model data:
+----------------------------
+
+            {% for data in sqlserverconn %}
+            <tr>
+                <td>{{data.firstname}}</td>
+                <td>{{data.lastname}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phone}}</td>
+            </tr>
+            {% endfor %}
+----------------------------------------------------------------------
+*** Ajetaan sovellus ylemmän contacts kansion sisältä jossa manage.py tiedosto on komennolla:
+*** python manage.py runserver ***
+
+
+
