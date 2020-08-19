@@ -20,19 +20,15 @@ def addContact(request):
                         'Trusted_Connection=yes;')
     
     if request.method=="POST":
-        if request.POST.get('') and request.POST.get('') and request.POST.get('') and request.POST.get(''):
-            new=insertdata()
+        if request.POST.get('firstname') and request.POST.get('lastname') and request.POST.get('email') and request.POST.get('phone'):
+            new=Insert()
             new.firstname=request.POST.get('')
             new.lastname=request.POST.get('')
             new.email=request.POST.get('')
             new.phone=request.POST.get('')
             cursor=conn.cursor()
-            cursor.execute("insert into persons ")
-
-
-
-        '''
-                
-                 result = cursor.fetchall()
-                return render(request, 'Index.html',{'sqlserverconn':result})
-        '''
+            cursor.execute('''insert into persons values ('"+new.firstname+"','"+new.lastname+"','"+new.email+"','"+new.phone+"') ''')
+            cursor.commit()
+            return render(request, 'AddNew.html')
+    else:
+            return render(request, 'AddNew.html')
