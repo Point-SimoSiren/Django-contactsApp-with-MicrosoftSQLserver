@@ -139,5 +139,14 @@ sidotaan vielä for loopilta model data:
 *** Ajetaan sovellus ylemmän contacts kansion sisältä jossa manage.py tiedosto on komennolla:
 *** python manage.py runserver ***
 
+--
+Päivitys:
+Github koodissa on nyt toteutettu lisäystoiminto
+ja se on oma views.py metodinsa sekä sille on oma html tiedosto
+tässä vaiheessa. Myös urls.py:ssä on oma osoitepolku lisäyssivulle.
+Lisäystoimintoa varten ei tarvinnut asentaa enää mitään,
+mutta koodia on tullut lisää.
+Tässä txt filessä on vain koodi contactien listauksen osalta.
+
 
 
