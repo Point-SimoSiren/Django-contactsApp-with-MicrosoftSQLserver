@@ -19,6 +19,6 @@ from . import views #lisätty itse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.getAllContacts), #Listaus näkymän osoitepolku
-    path('addcontact', views.addContact) #Uuden lisäys näkymän osoitepolku
+    path('', views.getAllContacts, name='index'), #Listaus näkymän osoitepolku
+    path('addcontact', views.addContact, name='addcontact') #Uuden lisäys näkymän osoitepolku
 ]

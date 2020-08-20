@@ -9,6 +9,19 @@
         #sqlinfo {
             color: aqua;
         }
+
+        .omaButton {
+            display: block;
+            width: 115px;
+            height: 25px;
+            background: #4E9CAF;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            line-height: 25px;
+        }
     </style>
 </head>
 
@@ -33,7 +46,7 @@
                     phone
                 </th>
             </tr>
-            <!-- Vittaus model luokkaan persons, jonka objektit käydään läpi for loopissa -->
+            <!-- Viittaus model luokkaan persons, jonka objektit käydään läpi for loopissa -->
             {% for data in persons %}
             <tr>
                 <td>{{data.firstname}}</td>
@@ -43,6 +56,8 @@
             </tr>
             {% endfor %}
         </table>
+        <hr />
+        <a class="omaButton" href="{% url 'addcontact' %}">Add new</a>
 
     </center>
 

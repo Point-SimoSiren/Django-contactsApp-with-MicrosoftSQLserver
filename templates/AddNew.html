@@ -10,12 +10,26 @@
         #sqlinfo {
             color: aqua;
         }
+
+        .omaButton {
+            display: block;
+            width: 115px;
+            height: 50px;
+            background: #4E9CAF;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            line-height: 25px;
+        }
     </style>
 </head>
 
 <body>
     <center>
         <h5 id="sqlinfo">Django with microsoft SQL server</h5>
+        <a class="omaButton" href="{% url 'index' %}">Show all contacts</a>
         <hr />
         <h1>Contacts app</h1>
         <hr />
@@ -45,8 +59,9 @@
 
             </table>
             <hr />
-            <input type="submit" value="insert" onclick="return alert('New contact added!')" />
+            <input class="omaButton" type="submit" value="insert" onclick="return alert('New contact added!')" />
         </form>
+
 
     </center>
 </body>
